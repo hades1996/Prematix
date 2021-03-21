@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "/axYGds2QeltxkSj/1YTpd/HKxOn5zC9mXXvcRpXv8SGWgkspQTUCpE+brfqhAbmHXr4Stdfeh9kNIJhjDKz+g==",
+  "success": true,
+  "projectFilePath": "C:\\proyects\\prematix\\prematix.Common\\prematix.Common.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\crist\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\crist\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
