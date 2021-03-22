@@ -16,16 +16,15 @@
 		public string Name { get; set; }
 
 		[Required(ErrorMessage = "El Campo {0} es obligatorio")]
-		public string Cedula { get; set; }
+		public int Cedula { get; set; }
 
 		[Required(ErrorMessage = "El Campo {0} es obligatorio")]
 		public string Entidad { get; set; }
 
 		[Required(ErrorMessage = "El Campo {0} es obligatorio")]
-		public string Telefono { get; set; }
+		public int Telefono { get; set; }
 
 		[Display(Name = "Image")]
-		[Required(ErrorMessage = "El Campo {0} es obligatorio")]
 		public string ImageUrl { get; set; }
 
 	}
