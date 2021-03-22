@@ -1,9 +1,9 @@
 ﻿namespace prematix.Web.Data
 {
+    using Entities;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using Entities;
 
     public class SeedDb
     {
@@ -22,14 +22,14 @@
 
             if (!this.context.Pediatras.Any())
             {
-                this.AddPediatra("Ramiro Guzman","123");
-                this.AddPediatra("Sergio Perez","456");
-                this.AddPediatra("Cristian castillo","789");
+                this.AddPediatra("Ramiro Guzman", "123");
+                this.AddPediatra("Sergio Perez", "456");
+                this.AddPediatra("Cristian castillo", "789");
                 await this.context.SaveChangesAsync();
             }
         }
 
-        private void AddPediatra(string name,string entidad)
+        private void AddPediatra(string name, string entidad)
         {
             this.context.Pediatras.Add(new Pediatra
             {
