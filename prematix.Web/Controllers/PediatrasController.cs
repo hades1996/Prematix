@@ -1,40 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using prematix.Web.Data;
 using prematix.Web.Data.Entities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace prematix.Web.Controllers
 {
     public class PediatrasController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IRepository repository;
 
-        public PediatrasController(DataContext context)
+        public PediatrasController(IRepository repository)
         {
-            _context = context;
+            this.repository = repository;
         }
 
         // GET: Pediatras
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Pediatras.ToListAsync());
+            return View(this.repository.GetPediatras());
         }
 
         // GET: Pediatras/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var pediatra = await _context.Pediatras
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var pediatra = this.repository.GetPediatra(id.Value);
             if (pediatra == null)
             {
                 return NotFound();
@@ -50,16 +46,15 @@ namespace prematix.Web.Controllers
         }
 
         // POST: Pediatras/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Cedula,Entidad,Telefono,ImageUrl")] Pediatra pediatra)
+        public async Task<IActionResult> Create( Pediatra pediatra)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(pediatra);
-                await _context.SaveChangesAsync();
+                this.repository.AddPediatra(pediatra);
+                await this.repository.SaveAllAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(pediatra);

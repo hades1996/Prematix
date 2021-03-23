@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>Detalles del pediatra</h2>
 
 <div>
     <h4>Pediatra</h4>
@@ -43,6 +43,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id"  type="button" class="btn btn-warning" data-toggle="button" aria-pressed="false" autocomplete="off">Editar</a> 
+    <a asp-action="Index"  type="button" class="btn btn-dark" data-toggle="button" aria-pressed="false" autocomplete="off">regresar al lista</a>
 </div>

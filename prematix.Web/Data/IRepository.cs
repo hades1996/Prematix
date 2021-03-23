@@ -8,9 +8,9 @@ namespace prematix.Web.Data
     {
         void AddPediatra(Pediatra pediatra);
 
-        Pediatra GetProduct(int id);
+        Pediatra GetPediatra(int id);
 
-        IEnumerable<Pediatra> GetProducts();
+        IEnumerable<Pediatra> GetPediatras();
 
         bool PediatraExists(int id);
 

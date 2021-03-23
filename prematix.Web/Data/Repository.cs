@@ -14,12 +14,12 @@ namespace prematix.Web.Data
             this.context = context;
         }
 
-        public IEnumerable<Pediatra> GetProducts()
+        public IEnumerable<Pediatra> GetPediatras()
         {
             return this.context.Pediatras.OrderBy(p => p.Name);
         }
 
-        public Pediatra GetProduct(int id)
+        public Pediatra GetPediatra(int id)
         {
             return this.context.Pediatras.Find(id);
         }
