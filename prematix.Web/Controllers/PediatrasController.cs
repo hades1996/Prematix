@@ -61,14 +61,14 @@ namespace prematix.Web.Controllers
         }
 
         // GET: Pediatras/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var pediatra = await _context.Pediatras.FindAsync(id);
+            var pediatra = this.repository.GetPediatra(id.Value);
             if (pediatra == null)
             {
                 return NotFound();
@@ -77,27 +77,22 @@ namespace prematix.Web.Controllers
         }
 
         // POST: Pediatras/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Cedula,Entidad,Telefono,ImageUrl")] Pediatra pediatra)
+        public async Task<IActionResult> Edit( Pediatra pediatra)
         {
-            if (id != pediatra.Id)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(pediatra);
-                    await _context.SaveChangesAsync();
+                    this.repository.UpdatePediatra(pediatra);
+                    await this.repository.SaveAllAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PediatraExists(pediatra.Id))
+                    if (this.repository.PediatraExists(pediatra.Id))
                     {
                         return NotFound();
                     }
@@ -112,15 +107,14 @@ namespace prematix.Web.Controllers
         }
 
         // GET: Pediatras/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var pediatra = await _context.Pediatras
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var pediatra = this.repository.GetPediatra(id.Value);
             if (pediatra == null)
             {
                 return NotFound();
@@ -134,15 +128,11 @@ namespace prematix.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pediatra = await _context.Pediatras.FindAsync(id);
-            _context.Pediatras.Remove(pediatra);
-            await _context.SaveChangesAsync();
+            var pediatra = this.repository.GetPediatra(id);
+            this.repository.RemovePediatra(pediatra);
+            await this.repository.SaveAllAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PediatraExists(int id)
-        {
-            return _context.Pediatras.Any(e => e.Id == id);
-        }
     }
 }

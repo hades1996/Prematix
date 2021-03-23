@@ -49,9 +49,9 @@
                 @Html.DisplayFor(modelItem => item.ImageUrl)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-warning" data-toggle="button" aria-pressed="false" autocomplete="off">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-info" data-toggle="button" aria-pressed="false" autocomplete="off">Detalles</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id" type="button" class="btn btn-danger" data-toggle="button" aria-pressed="false" autocomplete="off">Eliminar</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-warning">Editar</a> 
+                <a asp-action="Details" asp-route-id="@item.Id" type="button" class="btn btn-info">Detalles</a> 
+                <a asp-action="Delete" asp-route-id="@item.Id" type="button" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
 }
