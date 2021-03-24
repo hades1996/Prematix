@@ -43,9 +43,8 @@ namespace prematix.Web
             });
 
             services.AddTransient<SeedDb>();
-
-            services.AddScoped<IRepository, Repository>();
-
+            services.AddScoped<IPediatraRepository, PediatraRepository>();
+            services.AddScoped<IPadreRepository, PadreRepository>();
             services.AddScoped<IUserHelper, UserHelper>();
 
             services.Configure<CookiePolicyOptions>(options =>

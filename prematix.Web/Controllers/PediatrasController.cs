@@ -9,30 +9,30 @@ namespace prematix.Web.Controllers
 {
     public class PediatrasController : Controller
     {
-        private readonly IRepository repository;
+        private readonly IPediatraRepository pediatrarepository;
         private readonly IUserHelper userHelper;
 
-        public PediatrasController(IRepository repository,IUserHelper userHelper)
+        public PediatrasController(IPediatraRepository Pediatrarepository,IUserHelper userHelper)
         {
-            this.repository = repository;
+            pediatrarepository = Pediatrarepository;
             this.userHelper = userHelper;
         }
 
         // GET: Pediatras
         public IActionResult Index()
         {
-            return View(this.repository.GetPediatras());
+            return View(this.pediatrarepository.GetAll());
         }
 
         // GET: Pediatras/Details/5
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var pediatra = this.repository.GetPediatra(id.Value);
+            var pediatra = await this.pediatrarepository.GetByIdAsync(id.Value);
             if (pediatra == null)
             {
                 return NotFound();
@@ -57,22 +57,21 @@ namespace prematix.Web.Controllers
             {
                 //TODO: cambiar el usuario a dinamico
                 pediatra.User = await this.userHelper.GetUserByEmailAsync("cristiancastillo.1996@gmail.com");
-                this.repository.AddPediatra(pediatra);
-                await this.repository.SaveAllAsync();
+                await this.pediatrarepository.CreateAsync(pediatra);
                 return RedirectToAction(nameof(Index));
             }
             return View(pediatra);
         }
 
         // GET: Pediatras/Edit/5
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var pediatra = this.repository.GetPediatra(id.Value);
+            var pediatra = await this.pediatrarepository.GetByIdAsync(id.Value);
             if (pediatra == null)
             {
                 return NotFound();
@@ -93,12 +92,12 @@ namespace prematix.Web.Controllers
                 {
                     //TODO: cambiar el usuario a dinamico
                     pediatra.User = await this.userHelper.GetUserByEmailAsync("cristiancastillo.1996@gmail.com");
-                    this.repository.UpdatePediatra(pediatra);
-                    await this.repository.SaveAllAsync();
+                    await this.pediatrarepository.UpdateAsync(pediatra);
+                    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (this.repository.PediatraExists(pediatra.Id))
+                    if (!await this.pediatrarepository.ExistAsync(pediatra.Id))
                     {
                         return NotFound();
                     }
@@ -113,14 +112,14 @@ namespace prematix.Web.Controllers
         }
 
         // GET: Pediatras/Delete/5
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var pediatra = this.repository.GetPediatra(id.Value);
+            var pediatra = await this.pediatrarepository.GetByIdAsync(id.Value);
             if (pediatra == null)
             {
                 return NotFound();
@@ -134,9 +133,8 @@ namespace prematix.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pediatra = this.repository.GetPediatra(id);
-            this.repository.RemovePediatra(pediatra);
-            await this.repository.SaveAllAsync();
+            var pediatra = await this.pediatrarepository.GetByIdAsync(id);
+            await this.pediatrarepository.DeleteAsync(pediatra);
             return RedirectToAction(nameof(Index));
         }
 

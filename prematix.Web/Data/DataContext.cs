@@ -8,6 +8,8 @@
     {
         public DbSet<Pediatra> Pediatras { get; set; }
 
+        public DbSet<Padre> Padres { get; set; }
+
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
