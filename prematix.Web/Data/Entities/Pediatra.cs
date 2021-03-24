@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class Pediatra
+    public class Pediatra : IEntity
     {
         public int Id { get; set; }
 

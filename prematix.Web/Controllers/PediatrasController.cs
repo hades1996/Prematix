@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using prematix.Web.Data;
 using prematix.Web.Data.Entities;
-using System.Linq;
+using prematix.Web.Helpers;
 using System.Threading.Tasks;
 
 namespace prematix.Web.Controllers
@@ -10,10 +10,12 @@ namespace prematix.Web.Controllers
     public class PediatrasController : Controller
     {
         private readonly IRepository repository;
+        private readonly IUserHelper userHelper;
 
-        public PediatrasController(IRepository repository)
+        public PediatrasController(IRepository repository,IUserHelper userHelper)
         {
             this.repository = repository;
+            this.userHelper = userHelper;
         }
 
         // GET: Pediatras
@@ -46,13 +48,15 @@ namespace prematix.Web.Controllers
         }
 
         // POST: Pediatras/Create
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Pediatra pediatra)
+        public async Task<IActionResult> Create(Pediatra pediatra)
         {
             if (ModelState.IsValid)
             {
+                //TODO: cambiar el usuario a dinamico
+                pediatra.User = await this.userHelper.GetUserByEmailAsync("cristiancastillo.1996@gmail.com");
                 this.repository.AddPediatra(pediatra);
                 await this.repository.SaveAllAsync();
                 return RedirectToAction(nameof(Index));
@@ -80,13 +84,15 @@ namespace prematix.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit( Pediatra pediatra)
+        public async Task<IActionResult> Edit(Pediatra pediatra)
         {
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    //TODO: cambiar el usuario a dinamico
+                    pediatra.User = await this.userHelper.GetUserByEmailAsync("cristiancastillo.1996@gmail.com");
                     this.repository.UpdatePediatra(pediatra);
                     await this.repository.SaveAllAsync();
                 }

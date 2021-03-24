@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using prematix.Web.Data;
 using prematix.Web.Data.Entities;
+using prematix.Web.Helpers;
 
 namespace prematix.Web
 {
@@ -44,6 +45,8 @@ namespace prematix.Web
             services.AddTransient<SeedDb>();
 
             services.AddScoped<IRepository, Repository>();
+
+            services.AddScoped<IUserHelper, UserHelper>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

@@ -2,6 +2,7 @@
 {
     using Entities;
     using Microsoft.AspNetCore.Identity;
+    using prematix.Web.Helpers;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
@@ -9,13 +10,13 @@
     public class SeedDb
     {
         private readonly DataContext context;
-        private readonly UserManager<User> userManager;
+        private readonly IUserHelper userHelper;
         private Random random;
 
-        public SeedDb(DataContext context, UserManager<User> userManager)
+        public SeedDb(DataContext context, IUserHelper userHelper)
         {
             this.context = context;
-            this.userManager = userManager;
+            this.userHelper = userHelper;
             this.random = new Random();
         }
 
@@ -23,7 +24,7 @@
         {
             await this.context.Database.EnsureCreatedAsync();
 
-            var user = await this.userManager.FindByEmailAsync("cristiancastillo.1996@gmail.com");
+            var user = await this.userHelper.GetUserByEmailAsync("cristiancastillo.1996@gmail.com");
             if (user == null)
             {
                 user = new User
@@ -32,10 +33,10 @@
                     LastName = "Castillo",
                     Email = "cristiancastillo.1996@gmail.com",
                     UserName = "cristiancastillo.1996@gmail.com",
-                    PhoneNumber= "3215800771",
+                    PhoneNumber = "3215800771",
                 };
 
-                var result = await this.userManager.CreateAsync(user, "123456");
+                var result = await this.userHelper.AddUserAsync(user, "123456");
                 if (result != IdentityResult.Success)
                 {
                     throw new InvalidOperationException("Could not create the user in seeder");
@@ -52,7 +53,7 @@
             }
         }
 
-        private void AddPediatra(string name, string entidad,User user)
+        private void AddPediatra(string name, string entidad, User user)
         {
             this.context.Pediatras.Add(new Pediatra
             {
